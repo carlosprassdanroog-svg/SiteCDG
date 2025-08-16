@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CDG_STORE • Anúncio Oficial</title>
+  <meta name="description" content="Landing page dark com vídeo, countdown de 1 hora e CTA que libera após 1m40s, mais feedback 5 estrelas de quem comprou." />
+
+  <!-- Fonte -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <!-- Estilos externos -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="logo" aria-hidden="true"></span> CDG_STORE</div>
+      <div style="opacity:.85;font-weight:600">Anúncio Oficial</div>
+    </div>
+  </header>
+
+  <main class="container hero">
+    <!-- COUNTDOWN: 60 minutos de oferta -->
+    <div class="timerWrap" aria-live="polite">
+      <span class="timerLabel">Oferta expira em</span>
+      <span id="timer" class="timer" aria-label="Tempo restante">60:00</span>
+    </div>
+
+    <!-- VÍDEO -->
+    <section class="videoWrap ratio" id="player" aria-label="Anúncio em vídeo">
+      <video id="video" autoplay muted playsinline preload="metadata" aria-label="Reprodutor de vídeo">
+        <!-- Troque o src abaixo pelo seu arquivo .mp4/.webm -->
+        <source src="video.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo HTML5.
+      </video>
+      <!-- Fallback se autoplay for bloqueado -->
+      <div class="overlayPlay" id="overlay"><button class="playBtn" id="btnBigPlay" aria-label="Assistir vídeo">▶️ Assistir</button></div>
+      <div class="controls" id="controls" aria-label="Controles do player">
+        <button class="btn" id="btnPlay" aria-label="Reproduzir/Pausar">⏯</button>
+        <button class="btn" id="btnMute" aria-label="Ativar/Desativar som">🔈</button>
+        <div class="progress" aria-hidden="true"><div class="bar" id="bar"></div></div>
+        <button class="btn" id="btnFull" aria-label="Tela cheia">⛶</button>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <div class="ctaBox">
+      <a id="cta" class="cta" href="https://seu-checkout-aqui" target="_blank" rel="noopener" disabled>Efetuar Pagamento</a>
+    </div>
+    <p id="hint" class="hint">Assista até 1min40s (100s) para liberar o botão — e não deixe a oferta expirar.</p>
+
+    <!-- FEEDBACK 5 ESTRELAS -->
+    <section class="feedback" aria-label="Avaliações de quem comprou">
+      <h2 style="margin:0 0 10px">Avaliações de quem comprou</h2>
+      <div id="feedGrid" class="feedGrid"></div>
+      <p class="hint" style="margin-top:8px">Depoimentos ilustrativos; resultados variam conforme dedicação.</p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> CDG_STORE — Todos os direitos reservados.
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script.js" defer></script>
+</body>
+</html>

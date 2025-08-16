@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RossettoRoog's • Vídeo + Oferta com Countdown</title>
+  <meta name="description" content="Landing com vídeo, botão de compra liberado após 1m48s e countdown de oferta de 59 minutos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#000; --fg:#e9ecff; --muted:#9aa0b5; --neon:#00f0ff; --mag:#ff28f2; --ok:#00ff95; --warn:#ffcc00; --danger:#ff4d6d;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;height:100%;font-family:Poppins,system-ui,-apple-system,Segoe UI,Roboto;color:var(--fg);background:var(--bg)}
+    a{color:inherit;text-decoration:none}
+    .container{width:min(1080px,92%);margin-inline:auto}
+    header{position:sticky;top:0;z-index:20;backdrop-filter:blur(8px);background:rgba(0,0,0,.65);border-bottom:1px solid rgba(255,255,255,.08)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:.6rem;font-weight:800;letter-spacing:.3px}
+    .logo{width:36px;height:36px;border-radius:10px;background:conic-gradient(from 210deg,var(--neon),var(--mag),var(--neon));box-shadow:0 0 28px var(--neon)}
+
+    .hero{padding:26px 0 8px}
+    .timerWrap{display:flex;align-items:center;justify-content:center;gap:12px;margin:6px auto 16px}
+    .timerLabel{color:var(--muted);font-weight:600}
+    .timer{font-weight:900;letter-spacing:1px;font-size:clamp(26px,5.6vw,46px);padding:10px 16px;border-radius:12px;background:rgba(255,255,255,.05);box-shadow:0 0 24px rgba(0,240,255,.25);}
+    .expireSoon{color:var(--warn)}
+    .expired{color:var(--danger)}
+
+    .videoWrap{position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.12);background:#0a0a0a;box-shadow:0 22px 60px rgba(0,0,0,.6),0 0 38px rgba(0,240,255,.18)}
+    .ratio{aspect-ratio:16/9}
+    video{width:100%;height:100%;display:block;background:#000}
+
+    .overlayPlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(0deg,rgba(0,0,0,.35),rgba(0,0,0,.35));cursor:pointer;}
+    .overlayPlay.hidden{display:none}
+    .playBtn{display:flex;align-items:center;gap:.8rem;background:linear-gradient(90deg,var(--mag),var(--neon));color:#0b0b16;font-weight:900;padding:14px 22px;border-radius:14px;box-shadow:0 0 32px rgba(0,240,255,.35)}
+
+    .controls{display:flex;align-items:center;gap:10px;padding:10px;background:rgba(0,0,0,.55);position:absolute;left:0;right:0;bottom:0}
+    .btn{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);cursor:pointer}
+    .btn:active{transform:scale(.98)}
+    .progress{flex:1;height:8px;background:rgba(255,255,255,.18);border-radius:999px;position:relative;pointer-events:none}
+    .bar{position:absolute;inset:0 100% 0 0;background:linear-gradient(90deg,var(--neon),var(--mag));border-radius:999px}
+
+    .ctaBox{margin:22px auto 6px;display:flex;justify-content:center}
+    .cta{display:inline-flex;gap:.6rem;align-items:center;padding:16px 26px;border-radius:14px;font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--mag),var(--neon));color:#0b0b16;box-shadow:0 0 40px rgba(0,240,255,.35), inset 0 0 10px rgba(255,255,255,.25);border:none;cursor:pointer}
+    .cta[disabled]{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
+    .hint{color:var(--muted);text-align:center;font-size:.95rem}
+
+    .feedback{padding:26px 0}
+    .feedGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+    .feed{padding:14px;border-radius:14px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.03)}
+    .stars{color:#ffd54a;margin-bottom:6px}
+    .who{opacity:.8;font-weight:600}
+    @media (max-width:900px){.feedGrid{grid-template-columns:1fr}}
+
+    footer{padding:26px 0;color:var(--muted);text-align:center;border-top:1px solid rgba(255,255,255,.06);margin-top:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="logo"></span> RossettoRoog's</div>
+      <div style="opacity:.8;font-weight:600">Apresentação do Curso</div>
+    </div>
+  </header>
+
+  <main class="container hero">
+    <!-- COUNTDOWN: 59 minutos de oferta -->
+    <div class="timerWrap">
+      <span class="timerLabel">Oferta expira em</span>
+      <span id="timer" class="timer">59:00</span>
+    </div>
+
+    <!-- VÍDEO -->
+    <div class="videoWrap ratio" id="player">
+      <!-- Troque o src pelo seu arquivo .mp4/.webm -->
+      <video id="video" preload="metadata" playsinline>
+        <source src="sandbox:/mnt/data/Vídeo créditos de equipe de cinema para filme retrô preto e branco.mp4" type="video/mp4" />
+        <source src="video.mp4" type="video/mp4" />
+        Seu navegador não suporta vídeo HTML5.
+      </video>
+      <div class="overlayPlay" id="overlay">
+        <button class="playBtn" id="btnBigPlay">▶️ Assistir</button>
+      </div>
+      <div class="controls" id="controls">
+        <button class="btn" id="btnPlay" aria-label="Reproduzir/Pausar">▶️</button>
+        <button class="btn" id="btnMute" aria-label="Ativar/Desativar som">🔈</button>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <button class="btn" id="btnFull" aria-label="Tela cheia">⛶</button>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="ctaBox">
+      <a id="cta" class="cta" href="https://seu-checkout-aqui" target="_blank" rel="noopener" disabled>Quero entrar no curso</a>
+    </div>
+    <p id="hint" class="hint">Assista até o fim (1m48s) para liberar o botão — e não deixe a oferta expirar.</p>
+
+    <!-- FEEDBACK ALEATÓRIO (abaixo do vídeo) -->
+    <section class="feedback">
+      <h2 style="margin:0 0 10px">O que a galera está falando</h2>
+      <div id="feedGrid" class="feedGrid"></div>
+      <p class="hint" style="margin-top:8px">Depoimentos ilustrativos; resultados variam conforme dedicação.</p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> RossettoRoog's — Todos os direitos reservados.
+  </footer>
+
+<script>
+  // ========= CONFIG =========
+  const UNLOCK_TIME = 108; // 1m48s
+  const OFFER_MINUTES = 59;
+  const STORAGE_UNLOCK = 'ctaUnlocked_v1';
+  const STORAGE_DEADLINE = 'offerDeadline_v1';
+  const DEBUG_UNLOCK = new URLSearchParams(location.search).has('unlock');
+
+  // ========= ELEMENTOS =========
+  const video = document.getElementById('video');
+  const overlay = document.getElementById('overlay');
+  const btnBigPlay = document.getElementById('btnBigPlay');
+  const btnPlay = document.getElementById('btnPlay');
+  const btnMute = document.getElementById('btnMute');
+  const btnFull = document.getElementById('btnFull');
+  const bar = document.getElementById('bar');
+  const cta = document.getElementById('cta');
+  const hint = document.getElementById('hint');
+  const timer = document.getElementById('timer');
+
+  // ========= FUNÇÕES =========
+  function fmt(n){return n.toString().padStart(2,'0')}
+  function setCTAEnabled(v){
+    if(v){ cta.removeAttribute('disabled'); cta.style.pointerEvents='auto'; }
+    else { cta.setAttribute('disabled',''); cta.style.pointerEvents='none'; }
+  }
+  function unlockProgress(){
+    localStorage.setItem(STORAGE_UNLOCK, '1');
+  }
+  function hasProgress(){ return localStorage.getItem(STORAGE_UNLOCK) === '1' || DEBUG_UNLOCK; }
+
+  // Progress bar
+  function updateBar(){
+    const p = Math.min(1, video.currentTime / Math.max(UNLOCK_TIME, video.duration || UNLOCK_TIME));
+    bar.style.inset = `0 ${100 - p*100}% 0 0`;
+  }
+
+  // Countdown persistente (59m)
+  function getDeadline(){
+    let dl = parseInt(localStorage.getItem(STORAGE_DEADLINE)||'0',10);
+    const now = Date.now();
+    if(!dl || dl < now){ // primeira visita ou expirado → reinicia
+      dl = now + OFFER_MINUTES*60*1000;
+      localStorage.setItem(STORAGE_DEADLINE, String(dl));
+    }
+    return dl;
+  }
+
+  function tickCountdown(){
+    const left = getDeadline() - Date.now();
+    if(left <= 0){ timer.textContent = '00:00'; timer.classList.add('expired'); setCTAEnabled(false); hint.textContent='Oferta expirada. Atualize a página quando houver nova disponibilidade.'; return; }
+    const m = Math.floor(left/60000), s = Math.floor((left%60000)/1000);
+    timer.textContent = `${fmt(m)}:${fmt(s)}`;
+    if(left < 5*60*1000) timer.classList.add('expireSoon');
+    requestAnimationFrame(()=> setTimeout(tickCountdown, 250));
+  }
+
+  function reevaluateCTA(){
+    const timeOk = (getDeadline() - Date.now()) > 0;
+    const progressOk = hasProgress() || video.currentTime >= UNLOCK_TIME;
+    setCTAEnabled(timeOk && progressOk);
+  }
+
+  // ========= EVENTOS =========
+  overlay.addEventListener('click', ()=>{ overlay.classList.add('hidden'); video.play(); });
+  btnBigPlay.addEventListener('click', (e)=>{ e.stopPropagation(); overlay.classList.add('hidden'); video.play(); });
+  btnPlay.addEventListener('click', ()=>{ video.paused ? video.play() : video.pause(); });
+  btnMute.addEventListener('click', ()=>{ video.muted = !video.muted; btnMute.textContent = video.muted ? '🔇' : '🔈'; });
+  btnFull.addEventListener('click', ()=>{ const el = document.getElementById('player'); if(document.fullscreenElement){ document.exitFullscreen(); } else { el.requestFullscreen?.(); }});
+
+  video.addEventListener('timeupdate', ()=>{ updateBar(); if(video.currentTime >= UNLOCK_TIME && !hasProgress()){ unlockProgress(); } reevaluateCTA(); });
+  video.addEventListener('ended', ()=>{ unlockProgress(); reevaluateCTA(); });
+  video.addEventListener('play', ()=>{ btnPlay.textContent = '⏸'; });
+  video.addEventListener('pause', ()=>{ btnPlay.textContent = '▶️'; });
+
+  // ========= FEEDBACK ALEATÓRIO =========
+  const FEEDBACK = [
+    {n:'Ana Paula — SP', t:'Segui as aulas e em 3 semanas fechei meus primeiros freelas. Já virou minha renda extra do mês!'},
+    {n:'João Vitor — RJ', t:'Não é promessa milagrosa, é passo a passo. Paguei o curso e já recuperei o investimento.'},
+    {n:'Mariana Silva — PR', t:'Implementando as dicas, fiz R$ 600 de extra no primeiro mês. Bora escalar!'},
+    {n:'Carlos A. — MG', t:'Direto ao ponto. A parte prática vale ouro. Recomendo pra quem quer sair do zero.'},
+    {n:'Bianca Souza — BA', t:'Conteúdo claro, sem enrolação. Tive resultado aplicando 1h por dia.'},
+    {n:'Rafael — DF', t:'As planilhas e modelos aceleram demais. Fechei 2 clientes em 10 dias.'},
+    {n:'Letícia — SC', t:'Nunca tinha vendido nada online. Agora virou grana de fim de semana.'},
+    {n:'Pedro Lima — PE', t:'As estratégias de prospecção fazem diferença. Já tenho renda extra constante.'},
+    {n:'Juliana M. — RS', t:'A comunidade ajuda muito. Tirei dúvidas e avancei rápido.'},
+    {n:'Thiago — CE', t:'Amei o módulo de automação. Menos tempo, mais resultado.'}
+  ];
+  function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a}
+  function renderFeedback(){
+    const grid = document.getElementById('feedGrid');
+    grid.innerHTML = '';
+    shuffle([...FEEDBACK]).slice(0,8).forEach(({n,t})=>{
+      const card = document.createElement('div');
+      card.className='feed';
+      card.innerHTML = `<div class="stars">${'★'.repeat(5)}</div><div>${t}</div><div class="who">— ${n}</div>`;
+      grid.appendChild(card);
+    });
+  }
+
+  // ========= START =========
+  document.getElementById('year').textContent = new Date().getFullYear();
+  // Timer
+  tickCountdown();
+  // CTA inicial
+  reevaluateCTA();
+  // Feedbacks
+  renderFeedback();
+</script>
+</body>
+</html>
